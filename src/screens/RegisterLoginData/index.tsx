@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Alert, KeyboardAvoidingView, Platform } from "react-native";
+import { KeyboardAvoidingView, Platform } from "react-native";
 import { useForm } from "react-hook-form";
 import { RFValue } from "react-native-responsive-fontsize";
 import * as Yup from "yup";
@@ -64,7 +64,11 @@ export function RegisterLoginData() {
 
     const dataKey = "@savepass:logins";
 
-    // Save data on AsyncStorage and navigate to 'Home' screen
+    const data = JSON.stringify(newLoginData);
+
+    await AsyncStorage.setItem(dataKey, data);
+
+    navigate("Home");
   }
 
   return (
@@ -80,10 +84,7 @@ export function RegisterLoginData() {
             testID="service-name-input"
             title="Nome do serviço"
             name="service_name"
-            error={
-              // Replace here with real content
-              "Has error ? show error message"
-            }
+            error={errors?.service_name?.message as string}
             control={control}
             autoCapitalize="sentences"
             autoCorrect
@@ -92,10 +93,7 @@ export function RegisterLoginData() {
             testID="email-input"
             title="E-mail ou usuário"
             name="email"
-            error={
-              // Replace here with real content
-              "Has error ? show error message"
-            }
+            error={errors?.email?.message as string}
             control={control}
             autoCorrect={false}
             autoCapitalize="none"
@@ -105,10 +103,7 @@ export function RegisterLoginData() {
             testID="password-input"
             title="Senha"
             name="password"
-            error={
-              // Replace here with real content
-              "Has error ? show error message"
-            }
+            error={errors?.password?.message as string}
             control={control}
             secureTextEntry
           />
