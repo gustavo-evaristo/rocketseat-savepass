@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
-
 import { Header } from "../../components/Header";
 import { SearchBar } from "../../components/SearchBar";
 import { LoginDataItem } from "../../components/LoginDataItem";
@@ -41,11 +40,21 @@ export function Home() {
   }
 
   function handleFilterLoginData() {
-    // Filter results inside data, save with setSearchListData
+    if (searchText.length < 1) {
+      return setSearchListData(data);
+    }
+
+    const filteredLogins = data.filter(
+      (login) =>
+        login.service_name.toLowerCase().includes(searchText?.toLowerCase()) ||
+        login.email.toLowerCase().includes(searchText?.toLowerCase())
+    );
+
+    return setSearchListData(filteredLogins);
   }
 
   function handleChangeInputText(text: string) {
-    // Update searchText value
+    setSearchText(text);
   }
 
   useFocusEffect(

@@ -70,7 +70,7 @@ export function RegisterLoginData() {
 
     loginsRegistereds.push(newLoginData);
 
-    const data = JSON.stringify(loginsRegistereds);
+    const data = JSON.stringify(loginsRegistereds.reverse());
 
     await AsyncStorage.setItem(dataKey, data);
 
